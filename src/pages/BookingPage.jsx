@@ -6,10 +6,12 @@ import heroImage from '../assets/images/villa-pool.jpg'
 import kitchenImage from '../assets/images/kitchen.jpg'
 import livingRoomImage from '../assets/images/living-room.jpg'
 import lobbyImage from '../assets/images/lobby.jpg'
-import poolViewImage from '../assets/images/hero-image.jpg'
+import poolViewImage from '../assets/images/pics.jpg'
 import '../styles/booking.css'
 
 const ALL_FILTER = 'ALL'
+const WHATSAPP_URL =
+  'https://wa.me/2349052321666?text=Hello%20Bodunde%20Vista%2C%20I%27d%20like%20to%20request%20a%20booking.'
 
 const roomTypes = [
   'Standard Room',
@@ -777,7 +779,7 @@ export default function BookingPage({
     setFormErrors({})
     setBookingStatus({
       type: 'success',
-      text: 'Booking request received. Our team will contact you shortly.',
+      text: 'Booking request received. Our customer care team will contact you shortly.',
     })
   }
 
@@ -796,6 +798,11 @@ export default function BookingPage({
             Search BodundeVista hotels in Nigeria, the United States, South Africa,
             the United Kingdom, Finland, and the United Arab Emirates / Dubai.
           </p>
+          <div className="booking-hero__trust" aria-label="Booking process reassurance">
+            <span>5-star rated stays</span>
+            <span>No login or signup</span>
+            <span>Concierge follow-up</span>
+          </div>
         </div>
       </section>
 
@@ -865,10 +872,20 @@ export default function BookingPage({
           />
 
           <button className="booking-search-card__button" type="submit">
-            <span>Search</span>
+            <span>Check Availability</span>
             <ArrowUpRightIcon />
           </button>
         </form>
+
+        <div className="booking-process-note" role="note">
+          <strong>No account required.</strong>
+          <span>
+            Submit your request and our concierge team will contact you via WhatsApp or email to confirm availability, payment, and reservation details.
+          </span>
+          <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">
+            Message WhatsApp
+          </a>
+        </div>
       </div>
 
       <section className="booking-results" aria-label="Hotel results">
@@ -1020,6 +1037,13 @@ export default function BookingPage({
               </div>
 
               <form className="booking-modal__form" onSubmit={confirmBooking}>
+                <div className="booking-modal__notice">
+                  <strong>No login or signup required.</strong>
+                  <span>
+                    Submit your request and our concierge team will contact you via WhatsApp or email to confirm availability, payment, and reservation details.
+                  </span>
+                </div>
+
                 <div className="booking-modal__form-grid">
                   <label className={formErrors.fullName ? 'booking-modal__field--invalid' : ''}>
                     <span>Full Name</span>
@@ -1116,8 +1140,16 @@ export default function BookingPage({
 
                 <div className="booking-modal__actions">
                   <button className="booking-button" type="submit">
-                    Confirm Booking
+                    Submit Request
                   </button>
+                  <a
+                    className="booking-button booking-button--whatsapp"
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    WhatsApp Concierge
+                  </a>
                   <button
                     className="booking-button booking-button--light"
                     type="button"

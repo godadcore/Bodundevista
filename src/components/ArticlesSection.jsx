@@ -1,4 +1,4 @@
-import bedroomImage from '../assets/images/bedroom.jpg'
+import kitchenImage from '../assets/images/kitchen.jpg'
 import livingRoomImage from '../assets/images/living-room.jpg'
 import lobbyImage from '../assets/images/lobby.jpg'
 import { ArrowUpRightIcon } from './PremiumIcons'
@@ -21,8 +21,8 @@ const ARTICLES = [
   {
     category: 'Dining',
     date: 'December 5, 2025',
-    title: 'Solo journeys that help women travel with confidence',
-    image: bedroomImage,
+    title: 'Private dining touches that make a villa stay feel personal',
+    image: kitchenImage,
   },
 ]
 
@@ -71,10 +71,10 @@ export default function ArticlesSection() {
 
               <h3>{article.title}</h3>
 
-              <button type="button" className="article-card__button">
-                Read Story
+              <a href="/booking" className="article-card__button">
+                Plan a Stay
                 <ArrowUpRightIcon />
-              </button>
+              </a>
             </div>
           </article>
         ))}

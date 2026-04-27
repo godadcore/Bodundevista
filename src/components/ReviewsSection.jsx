@@ -12,6 +12,7 @@ const REVIEWS = [
     name: 'Mara Wells',
     role: 'Operations Lead',
     image: lobbyImage,
+    imageAlt: 'Polished hotel lobby seating area',
     text: 'The villa felt serene, polished, and carefully arranged. Each touchpoint, from arrival to room setup, felt considered.',
     rating: 4,
   },
@@ -19,6 +20,7 @@ const REVIEWS = [
     name: 'Sofia Lane',
     role: 'Travel Advisor',
     image: bedroomImage,
+    imageAlt: 'Quiet luxury bedroom with soft lighting',
     text: 'A restful luxury break with outstanding comfort. The atmosphere, design, and care made the whole visit stand out.',
     rating: 5,
   },
@@ -26,6 +28,7 @@ const REVIEWS = [
     name: 'Daniel Hart',
     role: 'Studio Director',
     image: livingRoomImage,
+    imageAlt: 'Bright living room arranged for a relaxed stay',
     text: 'The property balanced elegance with ease. It was bright, composed, and ideal for both unwinding and fresh ideas.',
     rating: 5,
   },
@@ -33,6 +36,7 @@ const REVIEWS = [
     name: 'Amara Vale',
     role: 'Founder',
     image: bathroomImage,
+    imageAlt: 'Spa-style bathroom with refined finishes',
     text: 'Everything moved smoothly from check-in to farewell. The rooms, mood, and staff made the stay feel genuinely special.',
     rating: 4,
   },
@@ -45,6 +49,13 @@ const SectionIcon = () => (
     <circle cx="24" cy="12" r="3.5" />
   </svg>
 )
+
+const getInitials = (name) =>
+  name
+    .split(' ')
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
 
 export default function ReviewsSection() {
   const [activeReview, setActiveReview] = useState(0)
@@ -85,15 +96,15 @@ export default function ReviewsSection() {
             </h2>
           </div>
 
-          <a href="#contact" className="review-section__button">
-            Browse reviews
+          <a href="/booking" className="review-section__button">
+            Request concierge booking
             <ArrowUpRightIcon />
           </a>
         </div>
 
         <div className="review-section__body">
           <div className="review-section__image parallax-layer" ref={imageRef}>
-            <img src={review.image} alt={review.name} />
+            <img src={review.image} alt={review.imageAlt} />
           </div>
 
           <article className="review-card parallax-layer" ref={cardRef}>
@@ -110,7 +121,9 @@ export default function ReviewsSection() {
 
             <div className="review-card__footer">
               <div className="review-card__author">
-                <img src={review.image} alt={review.name} />
+                <span className="review-card__initials" aria-hidden="true">
+                  {getInitials(review.name)}
+                </span>
                 <div>
                   <h3>{review.name}</h3>
                   <p>{review.role}</p>

@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { label: 'Highlights', action: { path: '/', section: 'features' } },
   { label: 'Facilities', action: { path: '/', section: 'amenities' } },
   { label: 'Rooms', action: { path: '/', section: 'rooms' } },
-  { label: 'Pages', action: { path: '/booking' } },
+  { label: 'Reservations', action: { path: '/booking' } },
 ]
 
 const FlagIcon = ({ code }) => (
@@ -73,7 +73,14 @@ const FlagIcon = ({ code }) => (
   </svg>
 )
 
-export default function Navbar({ countries, selectedCountry, setSelectedCountry, onNavigate }) {
+export default function Navbar({
+  countries,
+  selectedCountry,
+  setSelectedCountry,
+  onNavigate,
+  currentPath = '/',
+  activeSection = '',
+}) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [countryOpen, setCountryOpen] = useState(false)
@@ -137,6 +144,18 @@ export default function Navbar({ countries, selectedCountry, setSelectedCountry,
     }
   }
 
+  const isNavActive = (action) => {
+    if (action.path === '/booking') {
+      return currentPath === '/booking'
+    }
+
+    if (currentPath !== '/') {
+      return false
+    }
+
+    return action.section ? activeSection === action.section : !activeSection || activeSection === 'home'
+  }
+
   return (
     <>
       <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
@@ -146,7 +165,7 @@ export default function Navbar({ countries, selectedCountry, setSelectedCountry,
               <li key={label}>
                 <button
                   type="button"
-                  className="navbar__link"
+                  className={`navbar__link${isNavActive(action) ? ' navbar__link--active' : ''}`}
                   onClick={() => handleNavAction(action)}
                 >
                   {label}
@@ -257,7 +276,9 @@ export default function Navbar({ countries, selectedCountry, setSelectedCountry,
               <button
                 key={label}
                 type="button"
-                className="navbar__mobile-link"
+                className={`navbar__mobile-link${
+                  isNavActive(action) ? ' navbar__mobile-link--active' : ''
+                }`}
                 onClick={() => handleNavAction(action, true)}
               >
                 {label}

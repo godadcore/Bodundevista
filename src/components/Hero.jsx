@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import heroPoster from '../assets/images/villa-pool.jpg'
 import heroVideo from '../assets/videos/hero-video.mp4'
 import { ArrowUpRightIcon, ChevronDownIcon } from './PremiumIcons'
 import useParallax from '../hooks/useParallax'
@@ -234,7 +233,7 @@ export default function Hero({ countries, initialSearch, onSearch }) {
   const checkInRef = useRef(null)
   const checkOutRef = useRef(null)
   const [openField, setOpenField] = useState('')
-  const [showPosterOverlay, setShowPosterOverlay] = useState(true)
+  const [videoReady, setVideoReady] = useState(false)
   const [mobileDetailsOpen, setMobileDetailsOpen] = useState(false)
   const [search, setSearch] = useState(() => buildSearchState(initialSearch, countries))
 
@@ -300,23 +299,17 @@ export default function Hero({ countries, initialSearch, onSearch }) {
     <section className="hero" id="home" aria-label="Bodunde Vista welcome">
       <div className="hero__media parallax-layer" ref={mediaRef} aria-hidden="true">
         <video
+          className={`hero__video${videoReady ? ' hero__video--ready' : ''}`}
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
-          poster={heroPoster}
-          onPlaying={() => setShowPosterOverlay(false)}
+          onLoadedData={() => setVideoReady(true)}
+          onCanPlay={() => setVideoReady(true)}
         >
           <source src={heroVideo} type="video/mp4" />
         </video>
-
-        <div
-          className={`hero__poster${showPosterOverlay ? '' : ' hero__poster--hidden'}`}
-          aria-hidden="true"
-        >
-          <img src={heroPoster} alt="" />
-        </div>
       </div>
 
       <div className="hero__overlay" aria-hidden="true" />
@@ -407,10 +400,16 @@ export default function Hero({ countries, initialSearch, onSearch }) {
           </div>
 
           <button className="hero-search__button" type="submit">
-            <span>Search</span>
+            <span>Check Availability</span>
             <ArrowUpRightIcon />
           </button>
         </form>
+
+        <div className="hero__trust" aria-label="Booking reassurance">
+          <span>5-star guest care</span>
+          <span>No login required</span>
+          <span>Concierge confirmation by WhatsApp or email</span>
+        </div>
       </div>
 
       <div className="hero__brand-wrap">

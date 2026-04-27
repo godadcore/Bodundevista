@@ -11,7 +11,7 @@ import '../styles/sections.css'
 const FAQS = [
   {
     q: 'How do I book a stay?',
-    a: 'Call 052632161666 or email hello@getbndlabs.com and the team will help confirm your preferred dates and room style.',
+    a: 'Submit a booking request with your email or WhatsApp number. Our concierge team will confirm availability, payment, and reservation details before your stay is reserved.',
   },
   {
     q: 'Can the kitchen support special diets?',

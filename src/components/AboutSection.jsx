@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import picsImage from '../assets/images/pics.png'
+import picsImage from '../assets/images/pics.jpg'
 import heroVideo from '../assets/videos/hero-video.mp4'
 import { ArrowUpRightIcon } from './PremiumIcons'
 import useParallax from '../hooks/useParallax'

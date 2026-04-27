@@ -111,7 +111,7 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    if (currentPath !== HOME_PATH) {
+    if (currentPath !== HOME_PATH && !pendingSection) {
       return undefined
     }
 
@@ -145,7 +145,7 @@ export default function App() {
     }
 
     setCurrentPath(nextPath)
-    setPendingSection(nextPath === HOME_PATH ? section : '')
+    setPendingSection(section)
   }
 
   const handleCountryChange = (country) => {
@@ -156,9 +156,13 @@ export default function App() {
     const nextPath = normalizePath(path)
 
     if (nextPath === BOOKING_PATH) {
-      updateHistory(BOOKING_PATH)
+      updateHistory(BOOKING_PATH, section)
 
       window.setTimeout(() => {
+        if (section && scrollToTarget(section)) {
+          return
+        }
+
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }, 0)
 
@@ -189,6 +193,48 @@ export default function App() {
     }
   }
 
+  useEffect(() => {
+    const handleInternalLinkClick = (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return
+      }
+
+      const link = event.target.closest('a[href]')
+
+      if (!link || link.target === '_blank' || link.hasAttribute('download')) {
+        return
+      }
+
+      const url = new URL(link.href, window.location.href)
+
+      if (url.origin !== window.location.origin) {
+        return
+      }
+
+      const path = normalizePath(url.pathname)
+
+      if (path !== HOME_PATH && path !== BOOKING_PATH) {
+        return
+      }
+
+      event.preventDefault()
+      handleNavigate({ path, section: normalizeHash(url.hash) })
+    }
+
+    document.addEventListener('click', handleInternalLinkClick)
+
+    return () => {
+      document.removeEventListener('click', handleInternalLinkClick)
+    }
+  }, [currentPath])
+
   return (
     <>
       <Navbar
@@ -196,6 +242,8 @@ export default function App() {
         selectedCountry={selectedCountry}
         setSelectedCountry={handleCountryChange}
         onNavigate={handleNavigate}
+        currentPath={currentPath}
+        activeSection={pendingSection}
       />
 
       <main>

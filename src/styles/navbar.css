@@ -67,7 +67,25 @@
   transform: translateY(-1px);
 }
 
+.navbar__link--active {
+  color: #ffffff;
+}
+
+.navbar__link--active::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  margin-left: 0.42rem;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 14px rgba(198, 169, 107, 0.72);
+}
+
 .navbar--scrolled .navbar__link:hover {
+  color: var(--color-accent);
+}
+
+.navbar--scrolled .navbar__link--active {
   color: var(--color-accent);
 }
 
@@ -470,6 +488,12 @@
 .navbar__mobile-link:hover {
   background: #ffffff;
   transform: translateX(2px);
+}
+
+.navbar__mobile-link--active {
+  background: #f8f1df;
+  color: var(--color-text);
+  box-shadow: inset 3px 0 0 var(--color-accent);
 }
 
 .navbar__mobile-country-block {

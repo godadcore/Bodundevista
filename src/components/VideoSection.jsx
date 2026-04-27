@@ -43,8 +43,12 @@ export default function VideoSection() {
     if (!video) return
 
     if (video.paused) {
-      await video.play()
-      setVideoPlaying(true)
+      try {
+        await video.play()
+        setVideoPlaying(true)
+      } catch (error) {
+        setVideoPlaying(false)
+      }
     } else {
       video.pause()
       setVideoPlaying(false)
@@ -70,6 +74,7 @@ export default function VideoSection() {
       <video
         ref={videoRef}
         playsInline
+        preload="metadata"
         poster={livingRoomImage}
         onTimeUpdate={updateProgress}
         onEnded={() => setVideoPlaying(false)}
