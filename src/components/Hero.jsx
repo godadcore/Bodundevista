@@ -400,7 +400,7 @@ export default function Hero({ countries, initialSearch, onSearch }) {
           </div>
 
           <button className="hero-search__button" type="submit">
-            <span>Check Availability</span>
+            <span>Reserve Your Stay</span>
             <ArrowUpRightIcon />
           </button>
         </form>
@@ -413,7 +413,15 @@ export default function Hero({ countries, initialSearch, onSearch }) {
       </div>
 
       <div className="hero__brand-wrap">
+        <p className="hero__eyebrow">Private luxury villa</p>
         <h1 className="hero__brand">Bodunde Vista</h1>
+        <p className="hero__subtitle">
+          A quieter arrival, shaped by attentive concierge care.
+        </p>
+        <a href="/booking" className="hero__primary-cta">
+          Book Your Experience
+          <ArrowUpRightIcon />
+        </a>
       </div>
     </section>
   )
