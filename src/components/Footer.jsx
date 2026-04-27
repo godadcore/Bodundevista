@@ -3,17 +3,17 @@ import { ArrowUpRightIcon } from './PremiumIcons'
 import '../styles/footer.css'
 
 const QUICK_LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Highlights', href: '#features' },
-  { label: 'Rooms', href: '#rooms' },
-  { label: 'Questions', href: '#faq' },
+  { label: 'Home', href: '/#home' },
+  { label: 'About', href: '/#about' },
+  { label: 'Highlights', href: '/#features' },
+  { label: 'Rooms', href: '/#rooms' },
+  { label: 'Questions', href: '/#faq' },
 ]
 
 const UTILITY_LINKS = [
-  { label: 'Amenities', href: '#amenities' },
-  { label: 'Guest notes', href: '#reviews' },
-  { label: 'Journal', href: '#journal' },
+  { label: 'Amenities', href: '/#amenities' },
+  { label: 'Guest notes', href: '/#reviews' },
+  { label: 'Journal', href: '/#journal' },
   { label: 'Contact desk', href: '#contact' },
 ]
 
@@ -55,7 +55,7 @@ export default function Footer() {
       <div className="footer__container">
         <div className="footer__grid">
           <div className="footer__brand">
-            <a href="#home" className="footer__logo">
+            <a href="/" className="footer__logo">
               <img src={logoUrl} alt="Bodunde Vista logo" />
             </a>
 
@@ -63,7 +63,7 @@ export default function Footer() {
               Settle into private villa living surrounded by nature, with warm service, quiet rooms, and space for lasting memories.
             </p>
 
-            <a href="#rooms" className="footer__cta">
+            <a href="/booking" className="footer__cta">
               Book your stay
               <ArrowUpRightIcon />
             </a>

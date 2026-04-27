@@ -4,11 +4,12 @@ import { ArrowUpRightIcon, ChevronDownIcon } from './PremiumIcons'
 import '../styles/navbar.css'
 
 const NAV_LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Highlights', href: '#features' },
-  { label: 'Amenities', href: '#amenities' },
-  { label: 'Rooms', href: '#rooms' },
+  { label: 'Home', action: { path: '/' } },
+  { label: 'About', action: { path: '/', section: 'about' } },
+  { label: 'Highlights', action: { path: '/', section: 'features' } },
+  { label: 'Facilities', action: { path: '/', section: 'amenities' } },
+  { label: 'Rooms', action: { path: '/', section: 'rooms' } },
+  { label: 'Pages', action: { path: '/booking' } },
 ]
 
 const FlagIcon = ({ code }) => (
@@ -72,22 +73,13 @@ const FlagIcon = ({ code }) => (
   </svg>
 )
 
-const COUNTRIES = [
-  { code: 'NG', label: 'Nigeria' },
-  { code: 'US', label: 'United States' },
-  { code: 'ZA', label: 'South Africa' },
-  { code: 'GB', label: 'United Kingdom' },
-  { code: 'FI', label: 'Finland' },
-  { code: 'AE', label: 'United Arab Emirates' },
-]
-
-export default function Navbar({ selectedCountry, setSelectedCountry }) {
+export default function Navbar({ countries, selectedCountry, setSelectedCountry, onNavigate }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [countryOpen, setCountryOpen] = useState(false)
   const countryRef = useRef(null)
 
-  const activeCountry = selectedCountry || COUNTRIES[0]
+  const activeCountry = selectedCountry || countries[0]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 45)
@@ -119,7 +111,10 @@ export default function Navbar({ selectedCountry, setSelectedCountry }) {
   }, [menuOpen])
 
   useEffect(() => {
-    if (!menuOpen) return undefined
+    if (!menuOpen) {
+      setCountryOpen(false)
+      return undefined
+    }
 
     const closeOnEscape = (event) => {
       if (event.key === 'Escape') {
@@ -134,23 +129,40 @@ export default function Navbar({ selectedCountry, setSelectedCountry }) {
     }
   }, [menuOpen])
 
+  const handleNavAction = (action, closeMenu = false) => {
+    onNavigate(action)
+
+    if (closeMenu) {
+      setMenuOpen(false)
+    }
+  }
+
   return (
     <>
       <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
         <div className="navbar__inner">
           <ul className="navbar__links" role="list">
-            {NAV_LINKS.map(({ label, href }) => (
+            {NAV_LINKS.map(({ label, action }) => (
               <li key={label}>
-                <a href={href} className="navbar__link">
+                <button
+                  type="button"
+                  className="navbar__link"
+                  onClick={() => handleNavAction(action)}
+                >
                   {label}
-                </a>
+                </button>
               </li>
             ))}
           </ul>
 
-          <a href="#home" className="navbar__logo" aria-label="Bodunde Vista home">
+          <button
+            type="button"
+            className="navbar__logo"
+            aria-label="Bodunde Vista home"
+            onClick={() => handleNavAction({ path: '/' })}
+          >
             <img className="navbar__logo-mark" src={logoUrl} alt="" />
-          </a>
+          </button>
 
           <div className="navbar__actions">
             <div className="navbar__country-wrap" ref={countryRef}>
@@ -162,13 +174,13 @@ export default function Navbar({ selectedCountry, setSelectedCountry }) {
                 aria-haspopup="listbox"
               >
                 <FlagIcon code={activeCountry.code} />
-                <span>{activeCountry.label}</span>
+                <span>{activeCountry.navLabel || activeCountry.label}</span>
                 <ChevronDownIcon className="navbar__country-arrow" />
               </button>
 
               {countryOpen && (
                 <div className="navbar__country-menu" role="listbox">
-                  {COUNTRIES.map((country) => (
+                  {countries.map((country) => (
                     <button
                       type="button"
                       key={country.code}
@@ -191,9 +203,13 @@ export default function Navbar({ selectedCountry, setSelectedCountry }) {
               )}
             </div>
 
-            <a href="#contact" className="navbar__book">
+            <button
+              type="button"
+              className="navbar__book"
+              onClick={() => handleNavAction({ path: '/booking' })}
+            >
               Book Now <ArrowUpRightIcon />
-            </a>
+            </button>
 
             <button
               className={`navbar__hamburger${menuOpen ? ' navbar__hamburger--open' : ''}`}
@@ -216,10 +232,14 @@ export default function Navbar({ selectedCountry, setSelectedCountry }) {
       >
         <div className="navbar__mobile-panel" onClick={(event) => event.stopPropagation()}>
           <div className="navbar__mobile-top">
-            <a href="#home" className="navbar__mobile-brand" onClick={() => setMenuOpen(false)}>
+            <button
+              type="button"
+              className="navbar__mobile-brand"
+              aria-label="Bodunde Vista home"
+              onClick={() => handleNavAction({ path: '/' }, true)}
+            >
               <img src={logoUrl} alt="" />
-              <span>Bodunde Vista</span>
-            </a>
+            </button>
 
             <button
               type="button"
@@ -233,21 +253,30 @@ export default function Navbar({ selectedCountry, setSelectedCountry }) {
           </div>
 
           <div className="navbar__mobile-menu">
-            {NAV_LINKS.map(({ label, href }) => (
-              <a key={label} href={href} className="navbar__mobile-link" onClick={() => setMenuOpen(false)}>
+            {NAV_LINKS.map(({ label, action }) => (
+              <button
+                key={label}
+                type="button"
+                className="navbar__mobile-link"
+                onClick={() => handleNavAction(action, true)}
+              >
                 {label}
-              </a>
+              </button>
             ))}
           </div>
 
-          <a href="#contact" className="navbar__mobile-cta" onClick={() => setMenuOpen(false)}>
+          <button
+            type="button"
+            className="navbar__mobile-cta"
+            onClick={() => handleNavAction({ path: '/booking' }, true)}
+          >
             Book Now <ArrowUpRightIcon />
-          </a>
+          </button>
 
           <div className="navbar__mobile-country-block">
             <p>Country</p>
             <div className="navbar__mobile-countries">
-              {COUNTRIES.map((country) => (
+              {countries.map((country) => (
                 <button
                   type="button"
                   key={country.code}
@@ -260,7 +289,7 @@ export default function Navbar({ selectedCountry, setSelectedCountry }) {
                   }}
                 >
                   <FlagIcon code={country.code} />
-                  <span>{country.label}</span>
+                  <span>{country.navLabel || country.label}</span>
                 </button>
               ))}
             </div>

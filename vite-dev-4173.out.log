@@ -1,0 +1,23 @@
+
+> hotel-landing-page@1.0.0 dev
+> vite --host 127.0.0.1 --port 4173 --strictPort
+
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m439[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m4173[22m/[39m
+[2m2:52:21 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/BookingPage.jsx[22m
+[2m2:53:42 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/booking.css[22m
+[2m2:54:09 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/FAQSection.jsx, /src/components/AboutSection.jsx, /src/components/AmenitiesSection.jsx, /src/components/RoomsSection.jsx, /src/components/ArticlesSection.jsx, /src/components/ReviewsSection.jsx, /src/components/VillaFeaturesSection.jsx, /src/components/Hero.jsx[22m
+[2m2:54:42 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/booking.css[22m
+[2m2:54:57 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/booking.css[22m
+[2m2:55:14 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/booking.css[22m
+[2m2:55:41 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/booking.css[22m
+[2m3:08:02 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Hero.jsx[22m
+[2m3:08:02 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.jsx[22m
+[2m3:08:44 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/hero.css[22m
+[2m3:09:21 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/navbar.css[22m
+[2m3:09:34 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/navbar.css[22m
+[2m3:15:43 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/navbar.css[22m
+[2m3:24:13 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/hero.css[22m
+[2m3:24:28 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/styles/navbar.css[22m

@@ -13,7 +13,8 @@ export default function useParallax(options = 24) {
     revealY = 0,
     revealScale = 0,
     fade = false,
-    mobileFactor = 0.45,
+    mobileFactor = 0.16,
+    mobileBreakpoint = 810,
   } = settings
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export default function useParallax(options = 24) {
       frame = 0
 
       if (reducedMotion.matches) {
+        element.style.willChange = 'auto'
         element.style.setProperty('--parallax-x', '0px')
         element.style.setProperty('--parallax-y', '0px')
         element.style.setProperty('--reveal-x', '0px')
@@ -39,11 +41,15 @@ export default function useParallax(options = 24) {
 
       const rect = element.getBoundingClientRect()
       const viewport = window.innerHeight || 1
+      const viewportWidth = window.innerWidth || 0
       const centerOffset = rect.top + rect.height / 2 - viewport / 2
       const progress = clamp(centerOffset / viewport, -1, 1)
-      const motionScale = window.innerWidth < 700 ? mobileFactor : 1
+      const isMobileViewport = viewportWidth < mobileBreakpoint
+      const motionScale = isMobileViewport ? mobileFactor : 1
       const parallaxX = progress * x * motionScale
       const parallaxY = progress * y * motionScale
+
+      element.style.willChange = isMobileViewport ? 'auto' : 'transform, opacity'
 
       element.style.setProperty('--parallax-x', `${parallaxX.toFixed(2)}px`)
       element.style.setProperty('--parallax-y', `${parallaxY.toFixed(2)}px`)
@@ -84,7 +90,7 @@ export default function useParallax(options = 24) {
       window.removeEventListener('scroll', requestUpdate)
       window.removeEventListener('resize', requestUpdate)
     }
-  }, [x, y, revealX, revealY, revealScale, fade, mobileFactor])
+  }, [x, y, revealX, revealY, revealScale, fade, mobileFactor, mobileBreakpoint])
 
   return ref
 }
