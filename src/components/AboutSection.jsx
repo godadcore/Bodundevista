@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
-import heroPoster from '../assets/images/hero-image.jpg'
-import villaPoolImage from '../assets/images/villa-pool.jpg'
+import picsImage from '../assets/images/pics.png'
 import heroVideo from '../assets/videos/hero-video.mp4'
 import { ArrowUpRightIcon } from './PremiumIcons'
 import useParallax from '../hooks/useParallax'
@@ -42,6 +41,7 @@ const PauseIcon = () => (
 export default function AboutSection() {
   const videoRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [showPosterOverlay, setShowPosterOverlay] = useState(true)
   const introRef = useParallax({ y: -12, revealX: -120, revealY: 34, revealScale: -0.04, fade: true })
   const copyRef = useParallax({ y: 12, revealX: 120, revealY: 34, revealScale: -0.04, fade: true })
   const videoCardRef = useParallax({ y: 22, revealX: -150, revealY: 58, revealScale: -0.06, fade: true })
@@ -56,8 +56,12 @@ export default function AboutSection() {
     if (!video) return
 
     if (video.paused) {
-      await video.play()
-      setIsPlaying(true)
+      try {
+        await video.play()
+      } catch (error) {
+        setIsPlaying(false)
+        setShowPosterOverlay(true)
+      }
     } else {
       video.pause()
       setIsPlaying(false)
@@ -107,14 +111,34 @@ export default function AboutSection() {
               muted
               playsInline
               preload="auto"
-              poster={heroPoster}
-              onLoadedData={(event) => {
-                event.currentTarget.currentTime = 0.01
+              poster={picsImage}
+              onPlaying={() => {
+                setIsPlaying(true)
+                setShowPosterOverlay(false)
               }}
-              onEnded={() => setIsPlaying(false)}
+              onPause={(event) => {
+                setIsPlaying(false)
+                if (event.currentTarget.currentTime <= 0.1) {
+                  setShowPosterOverlay(true)
+                }
+              }}
+              onEnded={(event) => {
+                event.currentTarget.currentTime = 0
+                setIsPlaying(false)
+                setShowPosterOverlay(true)
+              }}
             >
               <source src={heroVideo} type="video/mp4" />
             </video>
+
+            <div
+              className={`about-overview__poster${
+                showPosterOverlay ? '' : ' about-overview__poster--hidden'
+              }`}
+              aria-hidden="true"
+            >
+              <img src={picsImage} alt="" loading="eager" decoding="sync" />
+            </div>
 
             <button className="about-overview__play" type="button" onClick={toggleVideo}>
               <span>{isPlaying ? <PauseIcon /> : <PlayIcon />}</span>
@@ -123,7 +147,7 @@ export default function AboutSection() {
           </div>
 
           <div className="about-overview__media parallax-layer" ref={imageCardRef}>
-            <img src={villaPoolImage} alt="Private villa pool beside a planted garden" />
+            <img src={picsImage} alt="Private villa pool beside a planted garden" />
           </div>
         </div>
 

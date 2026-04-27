@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import heroPoster from '../assets/images/hero-image.jpg'
+import heroPoster from '../assets/images/villa-pool.jpg'
 import heroVideo from '../assets/videos/hero-video.mp4'
 import { ArrowUpRightIcon, ChevronDownIcon } from './PremiumIcons'
 import useParallax from '../hooks/useParallax'
@@ -234,6 +234,8 @@ export default function Hero({ countries, initialSearch, onSearch }) {
   const checkInRef = useRef(null)
   const checkOutRef = useRef(null)
   const [openField, setOpenField] = useState('')
+  const [showPosterOverlay, setShowPosterOverlay] = useState(true)
+  const [mobileDetailsOpen, setMobileDetailsOpen] = useState(false)
   const [search, setSearch] = useState(() => buildSearchState(initialSearch, countries))
 
   useEffect(() => {
@@ -286,12 +288,35 @@ export default function Hero({ countries, initialSearch, onSearch }) {
     onSearch(search)
   }
 
+  const handleToggleMobileDetails = () => {
+    if (mobileDetailsOpen && (openField === 'guests' || openField === 'roomType')) {
+      setOpenField('')
+    }
+
+    setMobileDetailsOpen((currentValue) => !currentValue)
+  }
+
   return (
     <section className="hero" id="home" aria-label="Bodunde Vista welcome">
       <div className="hero__media parallax-layer" ref={mediaRef} aria-hidden="true">
-        <video autoPlay muted loop playsInline poster={heroPoster}>
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster={heroPoster}
+          onPlaying={() => setShowPosterOverlay(false)}
+        >
           <source src={heroVideo} type="video/mp4" />
         </video>
+
+        <div
+          className={`hero__poster${showPosterOverlay ? '' : ' hero__poster--hidden'}`}
+          aria-hidden="true"
+        >
+          <img src={heroPoster} alt="" />
+        </div>
       </div>
 
       <div className="hero__overlay" aria-hidden="true" />
@@ -329,37 +354,57 @@ export default function Hero({ countries, initialSearch, onSearch }) {
             inputRef={checkInRef}
           />
 
-          <DateField
-            label="Check-out"
-            name="checkOut"
-            value={search.checkOut}
-            onChange={updateSearch}
-            inputRef={checkOutRef}
-          />
+          <button
+            type="button"
+            className={`hero-search__mobile-toggle${
+              mobileDetailsOpen ? ' hero-search__mobile-toggle--open' : ''
+            }`}
+            aria-expanded={mobileDetailsOpen}
+            aria-controls="hero-search-mobile-extra"
+            onClick={handleToggleMobileDetails}
+          >
+            <span>{mobileDetailsOpen ? 'Hide details' : 'Add details'}</span>
+            <ChevronDownIcon className="hero-search__mobile-toggle-arrow" />
+          </button>
 
-          <SearchSelectField
-            label="Guests"
-            icon={<UsersIcon />}
-            value={search.guests}
-            isOpen={openField === 'guests'}
-            onToggle={() => setOpenField((currentField) => (currentField === 'guests' ? '' : 'guests'))}
-            options={guestOptions}
-            onSelect={(value) => updateSelectField('guests', value)}
-            renderValue={(value) => <span>{value}</span>}
-            renderOption={(option) => <span>{option}</span>}
-          />
+          <div
+            className={`hero-search__mobile-extra${
+              mobileDetailsOpen ? ' hero-search__mobile-extra--open' : ''
+            }`}
+            id="hero-search-mobile-extra"
+          >
+            <DateField
+              label="Check-out"
+              name="checkOut"
+              value={search.checkOut}
+              onChange={updateSearch}
+              inputRef={checkOutRef}
+            />
 
-          <SearchSelectField
-            label="Room Type"
-            icon={<RoomIcon />}
-            value={search.roomType}
-            isOpen={openField === 'roomType'}
-            onToggle={() => setOpenField((currentField) => (currentField === 'roomType' ? '' : 'roomType'))}
-            options={roomTypes}
-            onSelect={(value) => updateSelectField('roomType', value)}
-            renderValue={(value) => <span>{value}</span>}
-            renderOption={(option) => <span>{option}</span>}
-          />
+            <SearchSelectField
+              label="Guests"
+              icon={<UsersIcon />}
+              value={search.guests}
+              isOpen={openField === 'guests'}
+              onToggle={() => setOpenField((currentField) => (currentField === 'guests' ? '' : 'guests'))}
+              options={guestOptions}
+              onSelect={(value) => updateSelectField('guests', value)}
+              renderValue={(value) => <span>{value}</span>}
+              renderOption={(option) => <span>{option}</span>}
+            />
+
+            <SearchSelectField
+              label="Room Type"
+              icon={<RoomIcon />}
+              value={search.roomType}
+              isOpen={openField === 'roomType'}
+              onToggle={() => setOpenField((currentField) => (currentField === 'roomType' ? '' : 'roomType'))}
+              options={roomTypes}
+              onSelect={(value) => updateSelectField('roomType', value)}
+              renderValue={(value) => <span>{value}</span>}
+              renderOption={(option) => <span>{option}</span>}
+            />
+          </div>
 
           <button className="hero-search__button" type="submit">
             <span>Search</span>
