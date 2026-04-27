@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import picsImage from '../assets/images/pics.jpg'
+import secondImage from '../assets/images/Second.png'
 import heroVideo from '../assets/videos/hero-video.mp4'
 import { ArrowUpRightIcon } from './PremiumIcons'
 import useParallax from '../hooks/useParallax'
@@ -111,7 +112,7 @@ export default function AboutSection() {
               muted
               playsInline
               preload="auto"
-              poster={picsImage}
+              poster={secondImage}
               onPlaying={() => {
                 setIsPlaying(true)
                 setShowPosterOverlay(false)
@@ -137,7 +138,7 @@ export default function AboutSection() {
               }`}
               aria-hidden="true"
             >
-              <img src={picsImage} alt="" loading="eager" decoding="sync" />
+              <img src={secondImage} alt="" loading="eager" decoding="sync" />
             </div>
 
             <button className="about-overview__play" type="button" onClick={toggleVideo}>
